@@ -121,7 +121,8 @@ If you cannot help with something, offer to connect them with a human agent.`
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Prompt Tuner</h1>
           <p className="mt-2 text-gray-600">
@@ -177,7 +178,7 @@ If you cannot help with something, offer to connect them with a human agent.`
                       ...settings,
                       ai: { ...settings.ai, systemPrompt: preset.prompt }
                     })}
-                    className="p-3 text-left border border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors"
+                    className="p-3 text-left border border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors focus:outline-none focus:border-primary-500"
                     disabled={!isAdmin}
                   >
                     <div className="font-medium text-gray-900">{preset.name}</div>

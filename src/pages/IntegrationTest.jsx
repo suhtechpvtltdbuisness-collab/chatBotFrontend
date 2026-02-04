@@ -178,7 +178,7 @@ const IntegrationTest = () => {
                     value={apiKeyInput}
                     onChange={(e) => setApiKeyInput(e.target.value)}
                     placeholder={tenant?.apiKeys?.[0]?.maskedKey ? `Use full key (masked: ${tenant.apiKeys[0].maskedKey})` : 'Paste full API key here'}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary-500 outline-none text-sm"
                   />
                 </div>
               </div>

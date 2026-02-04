@@ -83,7 +83,7 @@ const TenantSettings = () => {
       });
       toast.success('Settings saved');
     } catch (e) {
-      toast.error(e?.response?.data?.error || 'Failed to save settings');
+      // Error handled by global interceptor
     } finally {
       setSaving(false);
     }
@@ -134,7 +134,7 @@ const TenantSettings = () => {
           <p className="text-sm text-gray-600 mb-4">Set URLs for your systems. We POST on each message with {`{ query, sessionId, visitor, tenantId, action }`}.</p>
           <div className="grid grid-cols-1 gap-4">
             <label className="flex items-center space-x-2">
-              <input type="checkbox" className="rounded border-gray-300" checked={form.settings.data.externalContextEnabled}
+              <input type="checkbox" className="rounded border-gray-300 text-primary-600 focus:ring-0 focus:ring-offset-0" checked={form.settings.data.externalContextEnabled}
                      onChange={e => updateField('settings.data.externalContextEnabled', e.target.checked)} />
               <span className="text-sm text-gray-700">Enable external context</span>
             </label>
@@ -191,5 +191,3 @@ const TenantSettings = () => {
 };
 
 export default TenantSettings;
-
-

@@ -22,7 +22,7 @@ const AgentManagement = () => {
       setTeam(response.data.team);
     } catch (error) {
       console.error('Failed to load team:', error);
-      toast.error('Failed to load team members');
+      // handled by global interceptor
     } finally {
       setLoading(false);
     }
@@ -36,8 +36,6 @@ const AgentManagement = () => {
       await loadTeam();
     } catch (error) {
       console.error('Failed to add agent:', error);
-      const message = error.response?.data?.error || 'Failed to add agent';
-      toast.error(message);
     }
   };
 
@@ -311,7 +309,7 @@ const AddAgentModal = ({ onClose, onAdd, agentLimit, currentAgents }) => {
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="input-field"
               placeholder="Enter full name"
             />
           </div>
@@ -325,7 +323,7 @@ const AddAgentModal = ({ onClose, onAdd, agentLimit, currentAgents }) => {
               required
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="input-field"
               placeholder="Enter email address"
             />
           </div>
@@ -337,7 +335,7 @@ const AddAgentModal = ({ onClose, onAdd, agentLimit, currentAgents }) => {
             <select
               value={formData.role}
               onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="input-field"
             >
               <option value="agent">Agent</option>
               <option value="admin">Admin</option>
@@ -353,7 +351,7 @@ const AddAgentModal = ({ onClose, onAdd, agentLimit, currentAgents }) => {
               required
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="input-field"
               placeholder="Enter temporary password"
               minLength={6}
             />
@@ -402,7 +400,6 @@ const EditAgentModal = ({ agent, onClose, onUpdate }) => {
       onUpdate();
     } catch (error) {
       console.error('Failed to update agent:', error);
-      toast.error('Failed to update agent');
     } finally {
       setLoading(false);
     }
@@ -433,7 +430,7 @@ const EditAgentModal = ({ agent, onClose, onUpdate }) => {
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="input-field"
             />
           </div>
 
@@ -459,7 +456,7 @@ const EditAgentModal = ({ agent, onClose, onUpdate }) => {
             <select
               value={formData.role}
               onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="input-field"
             >
               <option value="agent">Agent</option>
               <option value="admin">Admin</option>
