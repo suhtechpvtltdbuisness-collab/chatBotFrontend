@@ -67,7 +67,7 @@ const Sidebar = () => {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         {!collapsed && (
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/dashboard" className="flex items-center space-x-2">
             <div className={`p-2 rounded-lg ${isAgent ? 'bg-blue-100' : 'bg-primary-100'}`}>
               {isAgent ? (
                 <Headphones className="h-6 w-6 text-blue-600" />

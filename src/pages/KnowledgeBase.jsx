@@ -126,7 +126,7 @@ const KnowledgeBase = () => {
       toast.success(`Imported ${data.length} knowledge items!`);
     } catch (error) {
       console.error('Import failed:', error);
-      toast.error('Import failed. Please check your file format.');
+      // handled by global interceptor
     }
   };
 
@@ -169,7 +169,8 @@ const KnowledgeBase = () => {
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Knowledge Base</h1>
           <p className="mt-2 text-gray-600">
@@ -178,7 +179,7 @@ const KnowledgeBase = () => {
         </div>
 
         {isAdmin && (
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-wrap items-center gap-3">
             <label className="btn-secondary cursor-pointer flex items-center space-x-2">
               <Upload className="h-4 w-4" />
               <span>Import</span>
@@ -221,7 +222,7 @@ const KnowledgeBase = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search questions and answers..."
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:border-primary-500 outline-none"
               />
             </div>
           </div>
@@ -230,7 +231,7 @@ const KnowledgeBase = () => {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary-500 outline-none"
             >
               <option value="">All categories</option>
               {categories.map((category) => (

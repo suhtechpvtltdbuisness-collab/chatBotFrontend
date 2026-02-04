@@ -125,7 +125,7 @@ const Signup = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${
+                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-0 focus:border-primary-500 ${
                     errors.name ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Enter your full name"
@@ -150,7 +150,7 @@ const Signup = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${
+                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-0 focus:border-primary-500 ${
                     errors.email ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Enter your email"
@@ -175,7 +175,7 @@ const Signup = () => {
                   required
                   value={formData.tenantName}
                   onChange={handleChange}
-                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${
+                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-0 focus:border-primary-500 ${
                     errors.tenantName ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Enter your company name"
@@ -193,7 +193,7 @@ const Signup = () => {
                 name="industry"
                 value={formData.industry}
                 onChange={handleChange}
-                className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-0 focus:border-primary-500"
               >
                 {industries.map((industry) => (
                   <option key={industry.value} value={industry.value}>
@@ -220,7 +220,7 @@ const Signup = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${
+                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-0 focus:border-primary-500 ${
                     errors.password ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Create a password"
@@ -245,7 +245,7 @@ const Signup = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${
+                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-0 focus:border-primary-500 ${
                     errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Confirm your password"

@@ -1,9 +1,21 @@
+import { ArrowLeft } from 'lucide-react';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Docs = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-6 py-10">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+        >
+          <ArrowLeft className="h-5 w-5 mr-2" />
+          Back to Home
+        </button>
+
         <h1 className="text-3xl font-extrabold text-gray-900 mb-6">BotBridge Frontend Integration Guide</h1>
 
         <p className="text-gray-700 mb-6">
@@ -80,5 +92,3 @@ export default function App() {
 };
 
 export default Docs;
-
-

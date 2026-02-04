@@ -1,7 +1,9 @@
 import { ArrowRight, BarChart3, Bot, Clock, CreditCard, Database, Globe, Headphones, MessageSquare, Shield, Star, Users, Zap } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { useAuth } from '../lib/auth';
 
 const Landing = () => {
+  const { isAuthenticated } = useAuth();
   const [activeFeature, setActiveFeature] = useState(0);
 
   const features = [
@@ -95,9 +97,11 @@ const Landing = () => {
             </div>
             <div className="hidden md:flex items-center gap-4">
               <a href="/docs" className="text-gray-600 hover:text-gray-900 font-medium">Docs</a>
-              <a href="/login" className="text-gray-600 hover:text-gray-900 font-medium">Sign in</a>
-              <a href="/signup" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl">
-                Get Started Free
+              {!isAuthenticated && (
+                <a href="/login" className="text-gray-600 hover:text-gray-900 font-medium">Sign in</a>
+              )}
+              <a href={isAuthenticated ? "/dashboard" : "/signup"} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl">
+                {isAuthenticated ? "Go to Dashboard" : "Get Started Free"}
               </a>
             </div>
             {/* Mobile menu button */}
@@ -110,8 +114,12 @@ const Landing = () => {
               <div className="peer-checked:block hidden absolute left-0 right-0 top-full bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-2">
                   <a href="/docs" className="py-2 text-gray-700 hover:text-gray-900">Docs</a>
-                  <a href="/login" className="py-2 text-gray-700 hover:text-gray-900">Sign in</a>
-                  <a href="/signup" className="py-2 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-center">Get Started Free</a>
+                  {!isAuthenticated && (
+                    <a href="/login" className="py-2 text-gray-700 hover:text-gray-900">Sign in</a>
+                  )}
+                  <a href={isAuthenticated ? "/dashboard" : "/signup"} className="py-2 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-center">
+                    {isAuthenticated ? "Dashboard" : "Get Started Free"}
+                  </a>
                 </div>
               </div>
             </div>
