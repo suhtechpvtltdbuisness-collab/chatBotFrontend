@@ -137,7 +137,7 @@ const Landing = () => {
                 <Zap className="h-4 w-4 mr-2" />
                 BotBridge – AI-Powered Support Platform
               </div>
-              <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-relaxed pb-3 pt-1 break-words max-w-4xl mx-auto lg:mx-0 overflow-visible">
                 Transform Support Into Growth Engine
               </h1>
               <p className="mt-8 text-xl leading-relaxed text-gray-600 max-w-2xl">
