@@ -103,7 +103,7 @@ const IntegrationTest = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-96">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Integration Test</h1>
         <p className="mt-2 text-gray-600">

@@ -14,6 +14,8 @@ const KnowledgeBase = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 });
 
   const [newItem, setNewItem] = useState({
@@ -77,7 +79,7 @@ const KnowledgeBase = () => {
     e.preventDefault();
 
     try {
-      await kbAPI.update(editingItem.id, {
+      await kbAPI.update(editingItem._id, {
         ...editingItem,
         tags: editingItem.tags.filter(tag => tag.trim())
       });
@@ -91,16 +93,14 @@ const KnowledgeBase = () => {
   };
 
   const handleDeleteItem = async (itemId) => {
-    if (!confirm('Are you sure you want to delete this knowledge item?')) {
-      return;
-    }
-
     try {
       await kbAPI.delete(itemId);
       await loadKnowledgeBase();
+      setDeleteConfirm(null);
       toast.success('Knowledge item deleted successfully');
     } catch (error) {
       console.error('Failed to delete knowledge item:', error);
+      setDeleteConfirm(null);
     }
   };
 
@@ -227,19 +227,53 @@ const KnowledgeBase = () => {
             </div>
           </div>
 
-          <div className="sm:w-48">
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary-500 outline-none"
+          <div className="sm:w-48 relative">
+            <button
+              type="button"
+              onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
+              onBlur={() => setTimeout(() => setCategoryDropdownOpen(false), 200)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary-500 outline-none bg-white text-left flex items-center justify-between"
             >
-              <option value="">All categories</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+              <span className="text-gray-900">
+                {selectedCategory || 'All categories'}
+              </span>
+              <svg 
+                className={`h-4 w-4 text-gray-500 transition-transform ${categoryDropdownOpen ? 'rotate-180' : ''}`} 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            {categoryDropdownOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCategory('');
+                    setCategoryDropdownOpen(false);
+                  }}
+                  className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${!selectedCategory ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                >
+                  All categories
+                </button>
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    type="button"
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      setCategoryDropdownOpen(false);
+                    }}
+                    className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${selectedCategory === category ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -374,6 +408,32 @@ const KnowledgeBase = () => {
         </div>
       )}
 
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900">Delete Knowledge Item</h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this knowledge item? This action cannot be undone.
+            </p>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => handleDeleteItem(deleteConfirm)}
+                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => setDeleteConfirm(null)}
+                className="flex-1 btn-secondary"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Knowledge Items */}
       <div className="space-y-4">
         {items.length === 0 ? (
@@ -437,7 +497,7 @@ const KnowledgeBase = () => {
                     </button>
 
                     <button
-                      onClick={() => handleDeleteItem(item._id)}
+                      onClick={() => setDeleteConfirm(item._id)}
                       className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                       title="Delete item"
                     >

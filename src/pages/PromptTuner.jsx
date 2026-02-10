@@ -29,6 +29,8 @@ const PromptTuner = () => {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [modelDropdownOpen, setModelDropdownOpen] = useState(false);
+  const [positionDropdownOpen, setPositionDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (tenant?.settings) {
@@ -119,8 +121,7 @@ If you cannot help with something, offer to connect them with a human agent.`
   }
 
   return (
-    <div className="p-6">
-      {/* Header */}
+    <div className="p-6 pb-96">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-8">
         <div>
@@ -258,18 +259,52 @@ If you cannot help with something, offer to connect them with a human agent.`
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Model
                 </label>
-                <select
-                  value={settings.ai.model}
-                  onChange={(e) => setSettings({
-                    ...settings,
-                    ai: { ...settings.ai, model: e.target.value }
-                  })}
-                  className="input-field"
-                  disabled={!isAdmin}
-                >
-                  <option value="Meta-Llama-3.1-8B-Instruct">Llama 3.1 8B</option>
-                  <option value="Meta-Llama-3.1-70B-Instruct">Llama 3.1 70B</option>
-                </select>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setModelDropdownOpen(!modelDropdownOpen)}
+                    onBlur={() => setTimeout(() => setModelDropdownOpen(false), 200)}
+                    className="input-field w-full text-left flex items-center justify-between"
+                    disabled={!isAdmin}
+                  >
+                    <span>
+                      {settings.ai.model === 'Meta-Llama-3.1-8B-Instruct' ? 'Llama 3.1 8B' : 'Llama 3.1 70B'}
+                    </span>
+                    <svg 
+                      className={`h-4 w-4 text-gray-500 transition-transform ${modelDropdownOpen ? 'rotate-180' : ''}`} 
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  
+                  {modelDropdownOpen && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSettings({ ...settings, ai: { ...settings.ai, model: 'Meta-Llama-3.1-8B-Instruct' } });
+                          setModelDropdownOpen(false);
+                        }}
+                        className={`w-full px-3 py-2 text-left hover:bg-gray-100 rounded-t-lg ${settings.ai.model === 'Meta-Llama-3.1-8B-Instruct' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                      >
+                        Llama 3.1 8B
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSettings({ ...settings, ai: { ...settings.ai, model: 'Meta-Llama-3.1-70B-Instruct' } });
+                          setModelDropdownOpen(false);
+                        }}
+                        className={`w-full px-3 py-2 text-left hover:bg-gray-100 rounded-b-lg ${settings.ai.model === 'Meta-Llama-3.1-70B-Instruct' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                      >
+                        Llama 3.1 70B
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -338,20 +373,74 @@ If you cannot help with something, offer to connect them with a human agent.`
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Position
                   </label>
-                  <select
-                    value={settings.chatWidget.position}
-                    onChange={(e) => setSettings({
-                      ...settings,
-                      chatWidget: { ...settings.chatWidget, position: e.target.value }
-                    })}
-                    className="input-field"
-                    disabled={!isAdmin}
-                  >
-                    <option value="bottom-right">Bottom Right</option>
-                    <option value="bottom-left">Bottom Left</option>
-                    <option value="top-right">Top Right</option>
-                    <option value="top-left">Top Left</option>
-                  </select>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setPositionDropdownOpen(!positionDropdownOpen)}
+                      onBlur={() => setTimeout(() => setPositionDropdownOpen(false), 200)}
+                      className="input-field w-full text-left flex items-center justify-between"
+                      disabled={!isAdmin}
+                    >
+                      <span>
+                        {settings.chatWidget.position === 'bottom-right' ? 'Bottom Right' :
+                         settings.chatWidget.position === 'bottom-left' ? 'Bottom Left' :
+                         settings.chatWidget.position === 'top-right' ? 'Top Right' : 'Top Left'}
+                      </span>
+                      <svg 
+                        className={`h-4 w-4 text-gray-500 transition-transform ${positionDropdownOpen ? 'rotate-180' : ''}`} 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    {positionDropdownOpen && (
+                      <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSettings({ ...settings, chatWidget: { ...settings.chatWidget, position: 'bottom-right' } });
+                            setPositionDropdownOpen(false);
+                          }}
+                          className={`w-full px-3 py-2 text-left hover:bg-gray-100 rounded-t-lg ${settings.chatWidget.position === 'bottom-right' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                        >
+                          Bottom Right
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSettings({ ...settings, chatWidget: { ...settings.chatWidget, position: 'bottom-left' } });
+                            setPositionDropdownOpen(false);
+                          }}
+                          className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${settings.chatWidget.position === 'bottom-left' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                        >
+                          Bottom Left
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSettings({ ...settings, chatWidget: { ...settings.chatWidget, position: 'top-right' } });
+                            setPositionDropdownOpen(false);
+                          }}
+                          className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${settings.chatWidget.position === 'top-right' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                        >
+                          Top Right
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSettings({ ...settings, chatWidget: { ...settings.chatWidget, position: 'top-left' } });
+                            setPositionDropdownOpen(false);
+                          }}
+                          className={`w-full px-3 py-2 text-left hover:bg-gray-100 rounded-b-lg ${settings.chatWidget.position === 'top-left' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                        >
+                          Top Left
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
