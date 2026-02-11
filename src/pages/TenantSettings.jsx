@@ -7,6 +7,7 @@ const TenantSettings = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [tenant, setTenant] = useState(null);
+  const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
   const [form, setForm] = useState({
     name: '',
     domain: '',
@@ -90,7 +91,7 @@ const TenantSettings = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-60">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Tenant Settings</h1>
         <p className="mt-2 text-gray-600">Configure data integrations for industry-grade support</p>
@@ -113,15 +114,106 @@ const TenantSettings = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Industry</label>
-              <select className="input-field" value={form.industry} onChange={e => updateField('industry', e.target.value)}>
-                <option value="ecommerce">Ecommerce</option>
-                <option value="saas">SaaS</option>
-                <option value="healthcare">Healthcare</option>
-                <option value="education">Education</option>
-                <option value="finance">Finance</option>
-                <option value="real-estate">Real Estate</option>
-                <option value="other">Other</option>
-              </select>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIndustryDropdownOpen(!industryDropdownOpen)}
+                  onBlur={() => setTimeout(() => setIndustryDropdownOpen(false), 200)}
+                  className="input-field w-full text-left flex items-center justify-between"
+                >
+                  <span>
+                    {form.industry === 'ecommerce' ? 'Ecommerce' :
+                     form.industry === 'saas' ? 'SaaS' :
+                     form.industry === 'healthcare' ? 'Healthcare' :
+                     form.industry === 'education' ? 'Education' :
+                     form.industry === 'finance' ? 'Finance' :
+                     form.industry === 'real-estate' ? 'Real Estate' : 'Other'}
+                  </span>
+                  <svg 
+                    className={`h-4 w-4 text-gray-500 transition-transform ${industryDropdownOpen ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {industryDropdownOpen && (
+                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        updateField('industry', 'ecommerce');
+                        setIndustryDropdownOpen(false);
+                      }}
+                      className={`w-full px-3 py-2 text-left hover:bg-gray-100 rounded-t-lg ${form.industry === 'ecommerce' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                    >
+                      Ecommerce
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        updateField('industry', 'saas');
+                        setIndustryDropdownOpen(false);
+                      }}
+                      className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${form.industry === 'saas' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                    >
+                      SaaS
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        updateField('industry', 'healthcare');
+                        setIndustryDropdownOpen(false);
+                      }}
+                      className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${form.industry === 'healthcare' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                    >
+                      Healthcare
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        updateField('industry', 'education');
+                        setIndustryDropdownOpen(false);
+                      }}
+                      className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${form.industry === 'education' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                    >
+                      Education
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        updateField('industry', 'finance');
+                        setIndustryDropdownOpen(false);
+                      }}
+                      className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${form.industry === 'finance' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                    >
+                      Finance
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        updateField('industry', 'real-estate');
+                        setIndustryDropdownOpen(false);
+                      }}
+                      className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${form.industry === 'real-estate' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                    >
+                      Real Estate
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        updateField('industry', 'other');
+                        setIndustryDropdownOpen(false);
+                      }}
+                      className={`w-full px-3 py-2 text-left hover:bg-gray-100 rounded-b-lg ${form.industry === 'other' ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                    >
+                      Other
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

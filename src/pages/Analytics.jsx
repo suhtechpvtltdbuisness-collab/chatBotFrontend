@@ -1,4 +1,4 @@
-import { Activity, BarChart3, BookOpen, Clock, MessageSquare, Star, TrendingUp } from 'lucide-react';
+import { Activity, BarChart3, BookOpen, ChevronDown, Clock, MessageSquare, Star, TrendingUp } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { tenantAPI } from '../lib/api.js';
 import { useAuth } from '../lib/auth.jsx';
@@ -8,6 +8,7 @@ const Analytics = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(30);
+  const [periodDropdownOpen, setPeriodDropdownOpen] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -97,7 +98,7 @@ const Analytics = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-60">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
@@ -105,16 +106,55 @@ const Analytics = () => {
         </div>
         <div className="flex items-center space-x-2">
           <label className="text-sm text-gray-600">Period</label>
-          <select
-            value={days}
-            onChange={(e) => setDays(parseInt(e.target.value))}
-            className="border border-gray-300 rounded-md text-sm px-2 py-1"
-          >
-            <option value={7}>7 days</option>
-            <option value={14}>14 days</option>
-            <option value={30}>30 days</option>
-            <option value={90}>90 days</option>
-          </select>
+          <div className="relative">
+            <button
+              onClick={() => setPeriodDropdownOpen(!periodDropdownOpen)}
+              className="border border-gray-300 rounded-md text-sm px-3 py-1.5 bg-white hover:bg-gray-50 transition-colors flex items-center space-x-2 min-w-[100px] justify-between"
+            >
+              <span>{days} days</span>
+              <ChevronDown className={`h-4 w-4 transition-transform ${periodDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {periodDropdownOpen && (
+              <div className="absolute right-0 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+                <button
+                  onClick={() => {
+                    setDays(7);
+                    setPeriodDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${days === 7 ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                >
+                  7 days
+                </button>
+                <button
+                  onClick={() => {
+                    setDays(14);
+                    setPeriodDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${days === 14 ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                >
+                  14 days
+                </button>
+                <button
+                  onClick={() => {
+                    setDays(30);
+                    setPeriodDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${days === 30 ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                >
+                  30 days
+                </button>
+                <button
+                  onClick={() => {
+                    setDays(90);
+                    setPeriodDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${days === 90 ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                >
+                  90 days
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

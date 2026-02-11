@@ -9,6 +9,7 @@ const ChatTester = () => {
   const { tenant } = useAuth();
   const [apiKeys, setApiKeys] = useState([]);
   const [selectedApiKey, setSelectedApiKey] = useState('');
+  const [apiKeyDropdownOpen, setApiKeyDropdownOpen] = useState(false);
   const [manualApiKey, setManualApiKey] = useState('');
   const [testConfig, setTestConfig] = useState({
     visitorName: 'Test User',
@@ -73,7 +74,7 @@ const ChatTester = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-60">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
@@ -100,23 +101,61 @@ const ChatTester = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Configuration</h3>
 
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  API Key
-                </label>
-                <select
-                  value={selectedApiKey}
-                  onChange={(e) => setSelectedApiKey(e.target.value)}
-                  className="input-field"
-                >
-                  <option value="">Select an API key</option>
-                  {apiKeys.map((key) => (
-                    <option key={key.id} value={key.maskedKey}>
-                      {key.name} ({key.maskedKey})
-                    </option>
-                  ))}
-                </select>
-
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    API Key
+                  </label>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setApiKeyDropdownOpen(!apiKeyDropdownOpen)}
+                      onBlur={() => setTimeout(() => setApiKeyDropdownOpen(false), 200)}
+                      className="input-field w-full text-left flex items-center justify-between"
+                    >
+                      <span>
+                        {selectedApiKey ? 
+                          apiKeys.find(k => k.maskedKey === selectedApiKey)?.name + ' (' + selectedApiKey + ')' : 
+                          'Select an API key'}
+                      </span>
+                      <svg 
+                        className={`h-4 w-4 text-gray-500 transition-transform ${apiKeyDropdownOpen ? 'rotate-180' : ''}`} 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    {apiKeyDropdownOpen && (
+                      <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedApiKey('');
+                            setApiKeyDropdownOpen(false);
+                          }}
+                          className={`w-full px-3 py-2 text-left hover:bg-gray-100 rounded-t-lg ${!selectedApiKey ? 'bg-blue-50 text-blue-600' : 'text-gray-900'}`}
+                        >
+                          Select an API key
+                        </button>
+                        {apiKeys.map((key) => (
+                          <button
+                            key={key.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedApiKey(key.maskedKey);
+                              setApiKeyDropdownOpen(false);
+                            }}
+                            className={`w-full px-3 py-2 text-left hover:bg-gray-100 ${selectedApiKey === key.maskedKey ? 'bg-blue-50 text-blue-600' : 'text-gray-900'} ${key.id === apiKeys[apiKeys.length - 1].id ? 'rounded-b-lg' : ''}`}
+                          >
+                            {key.name} ({key.maskedKey})
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
                 {apiKeys.length === 0 && (
                   <p className="mt-2 text-sm text-red-600">
                     No active API keys found. Create one in the API Keys section.
@@ -163,7 +202,6 @@ const ChatTester = () => {
                     API key must start with <code>sk_</code>
                   </p>
                 )}
-              </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">

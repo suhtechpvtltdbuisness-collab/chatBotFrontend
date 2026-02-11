@@ -89,7 +89,7 @@ const AgentManagement = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-60">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
@@ -111,7 +111,7 @@ const AgentManagement = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="card">
           <div className="flex items-center">
             <div className="p-3 rounded-lg bg-blue-100">
@@ -172,15 +172,15 @@ const AgentManagement = () => {
         {team.map((member) => (
           <div key={member._id} className="card hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+              <div className="flex items-center space-x-3 min-w-0 flex-1">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-lg font-semibold text-primary-600">
                     {member.name.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">{member.name}</h3>
-                  <p className="text-sm text-gray-500">{member.email}</p>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-semibold text-gray-900 truncate">{member.name}</h3>
+                  <p className="text-sm text-gray-500 truncate">{member.email}</p>
                 </div>
               </div>
 

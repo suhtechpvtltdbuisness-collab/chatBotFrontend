@@ -1,4 +1,4 @@
-import { Save, User } from 'lucide-react';
+import { ChevronDown, Save, User } from 'lucide-react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../lib/auth.jsx';
@@ -6,6 +6,7 @@ import { useAuth } from '../lib/auth.jsx';
 const Profile = () => {
   const { user, updateProfile } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [timezoneDropdownOpen, setTimezoneDropdownOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     preferences: user?.preferences || {
@@ -52,7 +53,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-60">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Profile Settings</h1>
@@ -150,21 +151,120 @@ const Profile = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Timezone
                 </label>
-                <select
-                  value={formData.preferences.timezone}
-                  onChange={(e) => handleInputChange('preferences.timezone', e.target.value)}
-                  className="input-field"
-                >
-                  <option value="UTC">UTC</option>
-                  <option value="America/New_York">Eastern Time</option>
-                  <option value="America/Chicago">Central Time</option>
-                  <option value="America/Denver">Mountain Time</option>
-                  <option value="America/Los_Angeles">Pacific Time</option>
-                  <option value="Europe/London">London</option>
-                  <option value="Europe/Paris">Paris</option>
-                  <option value="Asia/Tokyo">Tokyo</option>
-                  <option value="Asia/Shanghai">Shanghai</option>
-                </select>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setTimezoneDropdownOpen(!timezoneDropdownOpen)}
+                    className="input-field w-full text-left flex items-center justify-between"
+                  >
+                    <span>
+                      {formData.preferences.timezone === 'UTC' && 'UTC'}
+                      {formData.preferences.timezone === 'America/New_York' && 'Eastern Time'}
+                      {formData.preferences.timezone === 'America/Chicago' && 'Central Time'}
+                      {formData.preferences.timezone === 'America/Denver' && 'Mountain Time'}
+                      {formData.preferences.timezone === 'America/Los_Angeles' && 'Pacific Time'}
+                      {formData.preferences.timezone === 'Europe/London' && 'London'}
+                      {formData.preferences.timezone === 'Europe/Paris' && 'Paris'}
+                      {formData.preferences.timezone === 'Asia/Tokyo' && 'Tokyo'}
+                      {formData.preferences.timezone === 'Asia/Shanghai' && 'Shanghai'}
+                    </span>
+                    <ChevronDown className={`h-4 w-4 transition-transform ${timezoneDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {timezoneDropdownOpen && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'UTC');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'UTC' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        UTC
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'America/New_York');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'America/New_York' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        Eastern Time
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'America/Chicago');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'America/Chicago' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        Central Time
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'America/Denver');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'America/Denver' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        Mountain Time
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'America/Los_Angeles');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'America/Los_Angeles' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        Pacific Time
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'Europe/London');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'Europe/London' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        London
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'Europe/Paris');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'Europe/Paris' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        Paris
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'Asia/Tokyo');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'Asia/Tokyo' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        Tokyo
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleInputChange('preferences.timezone', 'Asia/Shanghai');
+                          setTimezoneDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${formData.preferences.timezone === 'Asia/Shanghai' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        Shanghai
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

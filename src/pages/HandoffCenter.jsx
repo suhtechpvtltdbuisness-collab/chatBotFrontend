@@ -1,4 +1,4 @@
-import { AlertCircle, Bell, BellOff, Clock, MessageSquare, Send } from 'lucide-react';
+import { AlertCircle, Bell, BellOff, ChevronDown, Clock, MessageSquare, Send } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import Badge from '../components/Badge.jsx';
@@ -12,6 +12,7 @@ const HandoffCenter = () => {
   const [activeConversation, setActiveConversation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [newHandoffs, setNewHandoffs] = useState(0);
   const audioRef = useRef(null);
@@ -223,7 +224,7 @@ const HandoffCenter = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-60">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
@@ -267,16 +268,62 @@ const HandoffCenter = () => {
           <div className="card">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Conversations</h3>
-              <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                className="text-sm border border-gray-300 rounded px-2 py-1"
-              >
-                <option value="all">All</option>
-                <option value="transferred">Transferred</option>
-                <option value="escalated">Escalated</option>
-                {isAgent && <option value="my-chats">My Chats</option>}
-              </select>
+              <div className="relative">
+                <button
+                  onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
+                  className="text-sm border border-gray-300 rounded px-3 py-1.5 bg-white hover:bg-gray-50 transition-colors flex items-center space-x-2 min-w-[140px] justify-between"
+                >
+                  <span>
+                    {filter === 'all' && 'All'}
+                    {filter === 'transferred' && 'Transferred'}
+                    {filter === 'escalated' && 'Escalated'}
+                    {filter === 'my-chats' && 'My Chats'}
+                  </span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${filterDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {filterDropdownOpen && (
+                  <div className="absolute right-0 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+                    <button
+                      onClick={() => {
+                        setFilter('all');
+                        setFilterDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${filter === 'all' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                    >
+                      All
+                    </button>
+                    <button
+                      onClick={() => {
+                        setFilter('transferred');
+                        setFilterDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${filter === 'transferred' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                    >
+                      Transferred
+                    </button>
+                    <button
+                      onClick={() => {
+                        setFilter('escalated');
+                        setFilterDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${filter === 'escalated' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                    >
+                      Escalated
+                    </button>
+                    {isAgent && (
+                      <button
+                        onClick={() => {
+                          setFilter('my-chats');
+                          setFilterDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${filter === 'my-chats' ? 'bg-primary-50 text-primary-700' : 'text-gray-900'}`}
+                      >
+                        My Chats
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="space-y-3 max-h-96 overflow-y-auto">
