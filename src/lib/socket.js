@@ -1,4 +1,33 @@
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
+
+const resolveSocketConfig = () => {
+  const apiUrl = import.meta.env.VITE_API_URL || "https://api.suhtech.shop/api";
+  const customSocketUrl = import.meta.env.VITE_SOCKET_URL;
+  const customSocketPath = import.meta.env.VITE_SOCKET_PATH;
+
+  // Allow explicit socket overrides when API and socket hosts differ.
+  if (customSocketUrl) {
+    return {
+      url: customSocketUrl.replace(/\/+$/, ""),
+      path: customSocketPath || "/socket.io",
+    };
+  }
+
+  const normalizedApiUrl = apiUrl.replace(/\/+$/, "");
+
+  // If API is mounted at /api, connect to host root and use /api/socket.io.
+  if (normalizedApiUrl.endsWith("/api")) {
+    return {
+      url: normalizedApiUrl.slice(0, -4),
+      path: "/api/socket.io",
+    };
+  }
+
+  return {
+    url: normalizedApiUrl,
+    path: "/socket.io",
+  };
+};
 
 class SocketManager {
   constructor() {
@@ -12,33 +41,35 @@ class SocketManager {
       return this.socket;
     }
 
-    const backendUrl = import.meta.env.VITE_API_URL || 'https://api.suhtech.shop/api';
+    const { url, path } = resolveSocketConfig();
 
-    this.socket = io(backendUrl, {
+    this.socket = io(url, {
+      path,
       auth: {
         token,
-        tenantId
+        tenantId,
       },
-      transports: ['websocket', 'polling']
+      // Start with polling so environments without WS upgrade support can still connect.
+      transports: ["polling", "websocket"],
     });
 
-    this.socket.on('connect', () => {
-      console.log('Socket connected:', this.socket.id);
+    this.socket.on("connect", () => {
+      console.log("Socket connected:", this.socket.id);
       this.isConnected = true;
 
       // Join tenant room
       if (tenantId) {
-        this.socket.emit('join-tenant', tenantId);
+        this.socket.emit("join-tenant", tenantId);
       }
     });
 
-    this.socket.on('disconnect', () => {
-      console.log('Socket disconnected');
+    this.socket.on("disconnect", () => {
+      console.log("Socket disconnected");
       this.isConnected = false;
     });
 
-    this.socket.on('connect_error', (error) => {
-      console.error('Socket connection error:', error);
+    this.socket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
       this.isConnected = false;
     });
 
@@ -56,25 +87,25 @@ class SocketManager {
   // Agent-specific methods
   setAgentOnline(agentId, tenantId) {
     if (this.socket && this.isConnected) {
-      this.socket.emit('agent-online', { agentId, tenantId });
+      this.socket.emit("agent-online", { agentId, tenantId });
     }
   }
 
   setAgentOffline(agentId, tenantId) {
     if (this.socket && this.isConnected) {
-      this.socket.emit('agent-offline', { agentId, tenantId });
+      this.socket.emit("agent-offline", { agentId, tenantId });
     }
   }
 
   joinConversation(conversationId) {
     if (this.socket && this.isConnected) {
-      this.socket.emit('join-conversation', conversationId);
+      this.socket.emit("join-conversation", conversationId);
     }
   }
 
   leaveConversation(conversationId) {
     if (this.socket && this.isConnected) {
-      this.socket.emit('leave-conversation', conversationId);
+      this.socket.emit("leave-conversation", conversationId);
     }
   }
 
@@ -110,7 +141,7 @@ class SocketManager {
   removeAllListeners() {
     if (this.socket) {
       this.listeners.forEach((callbacks, event) => {
-        callbacks.forEach(callback => {
+        callbacks.forEach((callback) => {
           this.socket.off(event, callback);
         });
       });
@@ -129,7 +160,7 @@ class SocketManager {
   getConnectionStatus() {
     return {
       connected: this.isConnected,
-      socketId: this.socket?.id
+      socketId: this.socket?.id,
     };
   }
 }
