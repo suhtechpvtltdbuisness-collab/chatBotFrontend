@@ -21,6 +21,7 @@ import PromptTuner from './pages/PromptTuner.jsx';
 import Signup from './pages/Signup.jsx';
 import WidgetTest from './pages/WidgetTest.jsx';
 import TenantSettings from './pages/TenantSettings.jsx';
+import Contact from './pages/Contact.jsx';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/docs" element={<Docs />} />
           <Route path="/widget-test" element={<WidgetTest />} />
           <Route path="/" element={<Landing />} />
+          <Route path="/contact" element={<Contact />} />
 
           {/* Protected routes */}
           <Route path="/app" element={

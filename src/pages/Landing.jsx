@@ -1,5 +1,6 @@
 import { ArrowRight, BarChart3, Bot, Clock, CreditCard, Database, Globe, Headphones, MessageSquare, Shield, Star, Users, Zap } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 
 const Landing = () => {
@@ -95,14 +96,17 @@ const Landing = () => {
                 <div className="text-xs text-gray-500">AI-Powered Support Platform</div>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-4">
-              <a href="/docs" className="text-gray-600 hover:text-gray-900 font-medium">Docs</a>
+            <div className="hidden md:flex items-center gap-5">
+              <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Features</a>
+              <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Pricing</a>
+              <Link to="/docs" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Docs</Link>
+              <Link to="/contact" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Contact Us</Link>
               {!isAuthenticated && (
-                <a href="/login" className="text-gray-600 hover:text-gray-900 font-medium">Sign in</a>
+                <Link to="/login" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Sign in</Link>
               )}
-              <a href={isAuthenticated ? "/dashboard" : "/signup"} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl">
+              <Link to={isAuthenticated ? "/dashboard" : "/signup"} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl">
                 {isAuthenticated ? "Go to Dashboard" : "Get Started Free"}
-              </a>
+              </Link>
             </div>
             {/* Mobile menu button */}
             <div className="md:hidden">
@@ -111,15 +115,18 @@ const Landing = () => {
                 <span className="sr-only">Open menu</span>
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
               </label>
-              <div className="peer-checked:block hidden absolute left-0 right-0 top-full bg-white border-b border-gray-200">
+              <div className="peer-checked:block hidden absolute left-0 right-0 top-full bg-white border-b border-gray-200 shadow-lg z-50">
                 <div className="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-2">
-                  <a href="/docs" className="py-2 text-gray-700 hover:text-gray-900">Docs</a>
+                  <a href="#features" className="py-2 text-gray-700 hover:text-gray-900">Features</a>
+                  <a href="#pricing" className="py-2 text-gray-700 hover:text-gray-900">Pricing</a>
+                  <Link to="/docs" className="py-2 text-gray-700 hover:text-gray-900">Docs</Link>
+                  <Link to="/contact" className="py-2 text-gray-700 hover:text-gray-900 font-medium">Contact Us</Link>
                   {!isAuthenticated && (
-                    <a href="/login" className="py-2 text-gray-700 hover:text-gray-900">Sign in</a>
+                    <Link to="/login" className="py-2 text-gray-700 hover:text-gray-900">Sign in</Link>
                   )}
-                  <a href={isAuthenticated ? "/dashboard" : "/signup"} className="py-2 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-center">
+                  <Link to={isAuthenticated ? "/dashboard" : "/signup"} className="py-2 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-center">
                     {isAuthenticated ? "Dashboard" : "Get Started Free"}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -256,7 +263,7 @@ const Landing = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Free Plan */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-all">
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-all flex flex-col h-full">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Free</h3>
                 <div className="text-4xl font-bold text-gray-900 mb-2">$0</div>
@@ -288,13 +295,13 @@ const Landing = () => {
                   <span className="text-gray-700">Basic analytics</span>
                 </li>
               </ul>
-              <a href="/signup" className="w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors text-center block">
+              <a href="/signup" className="mt-auto w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors text-center block">
                 Get Started Free
               </a>
             </div>
 
             {/* Pro Plan */}
-            <div className="bg-white p-8 rounded-2xl border-2 border-blue-500 shadow-xl hover:shadow-2xl transition-all relative">
+            <div className="bg-white p-8 rounded-2xl border-2 border-blue-500 shadow-xl hover:shadow-2xl transition-all relative flex flex-col h-full">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
                   Most Popular
@@ -343,13 +350,13 @@ const Landing = () => {
                   <span className="text-gray-700">API access</span>
                 </li>
               </ul>
-              <a href="/signup" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all text-center block">
+              <a href="/signup" className="mt-auto w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all text-center block">
                 Start Pro Trial
               </a>
             </div>
 
             {/* Enterprise Plan */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-all">
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-all flex flex-col h-full">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
                 <div className="text-4xl font-bold text-gray-900 mb-2">$30</div>
@@ -393,9 +400,9 @@ const Landing = () => {
                   <span className="text-gray-700">SLA guarantee</span>
                 </li>
               </ul>
-              <a href="/contact" className="w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors text-center block">
+              <Link to="/contact" className="mt-auto w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors text-center block">
                 Contact Sales
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -497,9 +504,9 @@ const Landing = () => {
               Start Your Free Trial
               <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="/contact" className="px-8 py-4 rounded-xl font-semibold text-lg text-white border border-white/30 hover:bg-white/10 transition-colors">
+            <Link to="/contact" className="px-8 py-4 rounded-xl font-semibold text-lg text-white border border-white/30 hover:bg-white/10 transition-colors">
               Talk to Sales
-            </a>
+            </Link>
           </div>
           <p className="mt-6 text-sm text-blue-200">
             <Headphones className="inline h-4 w-4 mr-1" />
@@ -542,7 +549,7 @@ const Landing = () => {
               <h4 className="font-semibold mb-4">Support</h4>
               <div className="space-y-2 text-gray-400">
                 <a href="/docs" className="block hover:text-white cursor-pointer">Help Center</a>
-                <a href="/contact" className="block hover:text-white cursor-pointer">Contact Us</a>
+                <Link to="/contact" className="block hover:text-white cursor-pointer">Contact Us</Link>
                 <a href="#status" className="block hover:text-white cursor-pointer">Status Page</a>
                 <a href="#community" className="block hover:text-white cursor-pointer">Community</a>
               </div>
