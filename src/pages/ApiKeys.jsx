@@ -207,7 +207,7 @@ const ApiKeys = () => {
                   value={newKey.expiresIn || ''}
                   onChange={(e) => setNewKey({ ...newKey, expiresIn: e.target.value ? parseInt(e.target.value) : null })}
                   className="input-field"
-                  placeholder="Leave empty for no expiration"
+                  placeholder="Enter number of days"
                   min="1"
                 />
               </div>
